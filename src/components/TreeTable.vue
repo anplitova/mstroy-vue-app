@@ -37,26 +37,21 @@ treeStore.init(initialData);
 const columnDefs = ref([
   { 
     headerName: '№ п/п',
-    valueGetter: (params: any) => {
-      const children = treeStore.getChildren(params.data.id);
-      return children.length > 0 ? 'Группа' : 'Элемент';
-    }
+    valueGetter: (params: any) => params.node.rowIndex + 1,
   },
-  { 
-    headerName: 'Категория',
-    valueGetter: (params: any) => {
-      const children = treeStore.getChildren(params.data.id);
-      return children.length > 0 ? 'Группа' : 'Элемент';
-    }
-  },
-  { field: 'label',  headerName: 'Наименовавние' },
+  { field: 'label',  headerName: 'Наименовавние', flex: 1, },
 ]);
 
 const autoGroupColumnDef = ref({
   headerName: 'Категория',
   cellRendererParams: {
-    suppressCount: false,
+    suppressCount: true,
   },
+  valueGetter: (params: any) => {
+    const children = treeStore.getChildren(params.data.id);
+    return children.length > 0 ? 'Группа' : 'Элемент';
+  },
+  flex: 1,
 });
 
 // Плоский список для таблицы (все элементы)
